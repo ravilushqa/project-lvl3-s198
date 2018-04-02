@@ -14,3 +14,10 @@
 $router->get('/', function () use ($router) {
     return $router->app->make('view')->make('index');
 });
+
+$router->group(['prefix' => 'domains', 'as' => 'domains'], function () use ($router) {
+    $router->post('/', ['as' => 'store', 'uses' => 'DomainController@store']);
+    $router->get('/{id}',['as' => 'show', 'uses' => 'DomainController@show']);
+
+});
+
