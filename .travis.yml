@@ -6,6 +6,9 @@ install:
   - composer self-update
   - make install
 
+before_script:
+  - php artisan migrate
+
 script: make test
 
 after_script:
