@@ -70,11 +70,11 @@ return [
 
         'pgsql-production' => [
             'driver' => 'pgsql',
-            'host' => $DATABASE_URL["host"],
-            'port' => $DATABASE_URL["port"],
-            'database' => ltrim($DATABASE_URL["path"], "/"),
-            'username' => $DATABASE_URL["user"],
-            'password' => $DATABASE_URL["pass"],
+            'host' => $DATABASE_URL["host"] ?? '127.0.0.1',
+            'port' => $DATABASE_URL["port"] ?? '5432',
+            'database' => ltrim($DATABASE_URL["path"] ?? '', "/"),
+            'username' => $DATABASE_URL["user"] ?? 'root',
+            'password' => $DATABASE_URL["pass"] ?? '',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
