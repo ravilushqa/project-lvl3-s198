@@ -5,7 +5,7 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class DomainTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations, DatabaseTransactions;
 
     protected $table = 'domains';
     /**
