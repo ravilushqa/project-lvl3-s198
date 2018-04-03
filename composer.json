@@ -12,7 +12,9 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "phpunit/phpunit": "~7.0",
-        "mockery/mockery": "~1.0"
+        "mockery/mockery": "~1.0",
+        "squizlabs/php_codesniffer": "*",
+        "codeclimate/php-test-reporter": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -28,7 +30,10 @@
     "scripts": {
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
-        ]
+        ],
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "phpunit": "phpunit"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
