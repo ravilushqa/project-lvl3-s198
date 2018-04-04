@@ -5,6 +5,7 @@ namespace App;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Psr7\Request;
 
 class Domain extends Model
 {
@@ -32,7 +33,7 @@ class Domain extends Model
     {
         $client = new Client();
 
-        $request = new \GuzzleHttp\Psr7\Request('GET', $this->name);
+        $request = new Request('GET', $this->name);
 
         $promise = $client->sendAsync($request)->then(function (ResponseInterface $response) {
             $this->code = $response->getStatusCode();
