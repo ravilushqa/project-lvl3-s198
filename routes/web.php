@@ -16,8 +16,8 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'domains', 'as' => 'domains'], function () use ($router) {
+    $router->get('/', ['as' => 'index', 'uses' => 'DomainController@index']);
     $router->post('/', ['as' => 'store', 'uses' => 'DomainController@store']);
     $router->get('/{id}',['as' => 'show', 'uses' => 'DomainController@show']);
-
 });
 

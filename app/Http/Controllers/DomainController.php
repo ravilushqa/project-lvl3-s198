@@ -8,6 +8,13 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class DomainController extends BaseController
 {
+    public function index()
+    {
+        $domains = Domain::paginate(5);
+
+        return view('domain.index', compact('domains'));
+    }
+    
     public function store(Request $request, Domain $domain)
     {
         $this->validate($request, [
@@ -25,6 +32,6 @@ class DomainController extends BaseController
     {
         $domain = Domain::findOrFail($id);
 
-        return view('show', compact('domain'));
+        return view('domain.show', compact('domain'));
     }
 }

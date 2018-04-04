@@ -8,6 +8,7 @@ class DomainTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     protected $table = 'domains';
+
     /**
      * A basic test example.
      *
@@ -24,5 +25,12 @@ class DomainTest extends TestCase
         ]);
 
         $this->assertResponseStatus(302);
+    }
+
+    public function testListDomains()
+    {
+        $this->get('/domains');
+
+        $this->assertResponseOk();
     }
 }
