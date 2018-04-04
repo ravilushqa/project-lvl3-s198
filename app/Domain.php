@@ -2,7 +2,9 @@
 
 namespace App;
 
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
+use Psr\Http\Message\ResponseInterface;
 
 class Domain extends Model
 {
@@ -13,5 +15,25 @@ class Domain extends Model
      */
     protected $fillable = [
         'name',
+        'code',
+        'content_length'
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        static::creating(function($domain) {
+            $client = new Client();
+
+            $request = new \GuzzleHttp\Psr7\Request('GET', $domain->name);
+            $promise = $client->sendAsync($request)->then(function (ResponseInterface $response) use ($domain) {
+                $domain->code = $response->getStatusCode();
+                $domain->content_length = $response->getHeader('Content-Length')[0];
+            });
+            $promise->wait();
+
+
+        });
+    }
 }
