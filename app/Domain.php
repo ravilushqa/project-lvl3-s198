@@ -29,7 +29,7 @@ class Domain extends Model
             $request = new \GuzzleHttp\Psr7\Request('GET', $domain->name);
             $promise = $client->sendAsync($request)->then(function (ResponseInterface $response) use ($domain) {
                 $domain->code = $response->getStatusCode();
-                $domain->content_length = $response->getHeader('Content-Length')[0];
+                $domain->content_length = $response->getHeader('content-length')[0] ?? null;
             });
             $promise->wait();
 
