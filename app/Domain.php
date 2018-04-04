@@ -24,7 +24,7 @@ class Domain extends Model
     {
         parent::__construct($attributes);
 
-        static::creating(function() {
+        static::creating(function () {
             $this->setDomainData();
         });
     }
