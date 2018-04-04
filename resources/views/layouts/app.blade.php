@@ -29,7 +29,7 @@
     <hr class="my-4">
 
 
-    <form action="/domains" method="POST">
+    <form action="{{ route('domains.store') }}" method="POST">
         <div class="form-group">
             <label for="domain">Domain</label>
             <input type="text" class="form-control" id="domain" name="domain" aria-describedby="domainHelp" placeholder="Enter domain">
