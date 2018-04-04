@@ -27,13 +27,12 @@ class Domain extends Model
             $client = new Client();
 
             $request = new \GuzzleHttp\Psr7\Request('GET', $domain->name);
+
             $promise = $client->sendAsync($request)->then(function (ResponseInterface $response) use ($domain) {
                 $domain->code = $response->getStatusCode();
-                $domain->content_length = $response->getHeader('content-length')[0] ?? null;
+                $domain->content_length = $response->getHeader('content-length')[0] ?? strlen($response->getBody()->getContents());
             });
             $promise->wait();
-
-
         });
     }
 }
