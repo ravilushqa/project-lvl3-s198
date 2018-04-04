@@ -7,14 +7,18 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Created at</th>
+            <th scope="col">Code</th>
+            <th scope="col">Content-Length</th>
         </tr>
         </thead>
         <tbody>
         @foreach($domains as $domain)
             <tr>
                 <th scope="row">{{ $domain->getKey() }}</th>
-                <td><a href="{{ $domain->name }}">{{ $domain->name }}</a></td>
+                <td>{{ $domain->name }}</td>
                 <td>{{ $domain->created_at }}</td>
+                <td>{{ $domain->code }}</td>
+                <td>{{ $domain->content_length }}</td>
             </tr>
         @endforeach
         </tbody>
