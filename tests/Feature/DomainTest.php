@@ -31,7 +31,7 @@ class DomainTest extends TestCase
 
     public function testListDomains()
     {
-        factory(\App\Domain::class, rand(2,5))->create();
+        factory(\App\Domain::class, 2)->create(['name' => 'https://www.google.com/']);
 
         $this->get('/domains');
 
