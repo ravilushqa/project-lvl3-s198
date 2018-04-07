@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain;
+use App\Jobs\ParseDomainData;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -23,7 +24,12 @@ class DomainController extends BaseController
 
         $domain->name = $request->input('domain');
 
-        $domain->save();
+        $isSaved = $domain->save();
+
+        if ($isSaved) {
+            dispatch(new ParseDomainData($domain));
+
+        }
 
         return redirect()->route('domains.show', ['id' => $domain->getKey()]);
     }

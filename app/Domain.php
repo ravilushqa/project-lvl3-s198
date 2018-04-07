@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Jobs\ParseDomainData;
 use Illuminate\Database\Eloquent\Model;
 
 class Domain extends Model
@@ -17,13 +16,4 @@ class Domain extends Model
         'code',
         'content_length'
     ];
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        static::created(function ($domain) {
-            dispatch(new ParseDomainData($domain));
-        });
-    }
 }
