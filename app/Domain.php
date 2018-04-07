@@ -14,6 +14,9 @@ class Domain extends Model
     protected $fillable = [
         'name',
         'code',
-        'content_length'
+        'content_length',
+        'h1',
+        'meta_keywords',
+        'meta_description'
     ];
 }
