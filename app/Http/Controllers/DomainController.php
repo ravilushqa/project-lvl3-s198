@@ -14,7 +14,7 @@ class DomainController extends BaseController
 
         return view('domain.index', compact('domains'));
     }
-    
+
     public function store(Request $request, Domain $domain)
     {
         $this->validate($request, [

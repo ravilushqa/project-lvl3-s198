@@ -2,10 +2,8 @@
 
 namespace App;
 
-use GuzzleHttp\Client;
+use App\Jobs\ParseDomainData;
 use Illuminate\Database\Eloquent\Model;
-use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Psr7\Request;
 
 class Domain extends Model
 {
@@ -24,21 +22,8 @@ class Domain extends Model
     {
         parent::__construct($attributes);
 
-        static::creating(function () {
-            $this->setDomainData();
+        static::created(function ($domain) {
+            dispatch(new ParseDomainData($domain));
         });
-    }
-
-    protected function setDomainData()
-    {
-        $client = new Client();
-
-        $request = new Request('GET', $this->name);
-
-        $promise = $client->sendAsync($request)->then(function (ResponseInterface $response) {
-            $this->code = $response->getStatusCode();
-            $this->content_length = $response->getHeader('content-length')[0] ?? strlen($response->getBody()->getContents());
-        });
-        $promise->wait();
     }
 }

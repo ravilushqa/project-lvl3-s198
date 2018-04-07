@@ -16,6 +16,8 @@ class DomainTest extends TestCase
      */
     public function testCheckValidDomain()
     {
+        $this->expectsJobs('App\Jobs\ParseDomainData');
+
         $this->post('/domains', [
             'domain' => 'https://www.google.com/'
         ]);
@@ -29,6 +31,8 @@ class DomainTest extends TestCase
 
     public function testListDomains()
     {
+        factory(\App\Domain::class, rand(2,5))->create();
+
         $this->get('/domains');
 
         $this->assertResponseOk();
