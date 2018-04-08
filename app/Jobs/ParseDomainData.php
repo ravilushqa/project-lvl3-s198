@@ -51,27 +51,23 @@ class ParseDomainData implements ShouldQueue
     {
         $client = new Client();
 
-        $request = new Request('GET', $this->domain->name);
+        $response = $client->request('GET', $this->domain->name);
 
-        $promise = $client->sendAsync($request)->then(function (ResponseInterface $response) {
+        $body = $response->getBody()->getContents();
+        $document = new Document($body);
+        $h1 = $document->first('h1');
+        $h1Text = isset($h1) ? $h1->text() : null;
+        $metaKeywords = $document->first('meta[name=keywords]');
+        $metaKeywordsContent = isset($metaKeywords) ? $metaKeywords->getAttribute('content') : null;
+        $metaDescription = $document->first('meta[name=description]');
+        $metaDescriptionContent = isset($metaDescription) ? $metaDescription->getAttribute('content') : null;
 
-            $body = $response->getBody()->getContents();
-            $document = new Document($body);
-            $h1 = $document->first('h1');
-            $h1Text = isset($h1) ?$h1->text() : null;
-            $metaKeywords = $document->first('meta[name=keywords]');
-            $metaKeywordsContent = isset($metaKeywords) ? $metaKeywords->getAttribute('content') : null;
-            $metaDescription = $document->first('meta[name=description]');
-            $metaDescriptionContent = isset($metaDescription) ? $metaDescription->getAttribute('content') : null;
-
-            $this->domain->code = $response->getStatusCode();
-            $this->domain->content_length = strlen($body);
-            $this->domain->h1 = $h1Text;
-            $this->domain->meta_keywords = $metaKeywordsContent;
-            $this->domain->meta_description = $metaDescriptionContent;
-            $this->domain->save();
-        });
-        $promise->wait();
+        $this->domain->code = $response->getStatusCode();
+        $this->domain->content_length = strlen($body);
+        $this->domain->h1 = $h1Text;
+        $this->domain->meta_keywords = $metaKeywordsContent;
+        $this->domain->meta_description = $metaDescriptionContent;
+        $this->domain->save();
     }
 
 }
