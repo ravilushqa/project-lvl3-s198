@@ -8,6 +8,7 @@ class DomainTest extends TestCase
     use DatabaseMigrations, DatabaseTransactions;
 
     protected $table = 'domains';
+    protected $testUrl = 'https://www.google.com/';
 
     /**
      * A basic test example.
@@ -16,14 +17,13 @@ class DomainTest extends TestCase
      */
     public function testCheckValidDomain()
     {
-        $this->expectsJobs('App\Jobs\ParseDomainData');
 
-        $this->post('/domains', [
-            'domain' => 'https://www.google.com/'
+        $this->post(route('domains.store'), [
+            'domain' => $this->testUrl
         ]);
 
         $this->seeInDatabase($this->table, [
-            'name' => 'https://www.google.com/'
+            'name' => $this->testUrl
         ]);
 
         $this->assertResponseStatus(302);
@@ -31,9 +31,9 @@ class DomainTest extends TestCase
 
     public function testListDomains()
     {
-        factory(\App\Domain::class, 2)->create(['name' => 'https://www.google.com/']);
+        factory(\App\Domain::class, 2)->create(['name' => $this->testUrl]);
 
-        $this->get('/domains');
+        $this->get(route('domains.index'));
 
         $this->assertResponseOk();
     }
